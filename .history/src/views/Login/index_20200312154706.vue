@@ -70,8 +70,8 @@ export default {
     };
      // 验证密码
     let validatePassword = (rule, value, callback) => {
-      ruleForm.password = stripscript(value);
-      value = ruleForm.password;
+      this.ruleForm.password = stripscript(value);
+      value = this.ruleForm.password;
       if (value === "") {
         callback(new Error("请输入密码"));
       } else if (validatePass(value)) {
@@ -84,15 +84,15 @@ export default {
     let validatePasswords = (rule, value, callback) => {
       // 如果模块值为login, 直接通过
       // 原因:因为重复密码块使用的是v-show 只是display了元素 点击提交的时候还是会验证重复密码规则
-      if (model.value === "login") {
+      if (this.model === "login") {
         callback();
       }
       // 过滤后的数据
-      ruleForm.passwords = stripscript(value);
-      value = ruleForm.passwords;
+      this.ruleForm.passwords = stripscript(value);
+      value = this.ruleForm.passwords;
       if (value === "") {
         callback(new Error("请再次输入密码"));
-      } else if (value != ruleForm.password) {
+      } else if (value != this.ruleForm.password) {
         callback(new Error("重复密码不正确"));
       } else {
         callback();
@@ -108,7 +108,6 @@ export default {
         callback();
       }
     };
-
     /* *******************************声明变量******************************* */
     // 模块值
     const model = ref("login");
@@ -131,7 +130,6 @@ export default {
       passwords: [{ validator: validatePasswords, trigger: "blur" }],
       code: [{ validator: validateCode, trigger: "blur" }]
     });
-    
     /* *******************************声明函数******************************* */
     // 登陆/注册切换模块
     const toggleMenu = (data =>{

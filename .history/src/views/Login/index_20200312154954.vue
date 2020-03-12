@@ -108,7 +108,6 @@ export default {
         callback();
       }
     };
-
     /* *******************************声明变量******************************* */
     // 模块值
     const model = ref("login");
@@ -131,7 +130,6 @@ export default {
       passwords: [{ validator: validatePasswords, trigger: "blur" }],
       code: [{ validator: validateCode, trigger: "blur" }]
     });
-    
     /* *******************************声明函数******************************* */
     // 登陆/注册切换模块
     const toggleMenu = (data =>{
