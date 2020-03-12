@@ -58,7 +58,7 @@ import axios from "@/utils/request";
 import { reactive, ref, onMounted } from "@vue/composition-api";
 export default {
   name: "Home",
-  setup(props, { refs, root }) {
+  setup(props, { refs, root}) {
     //这里面放置data数据、生命周期、自定义的函数
     //验证用户名
     let validateUsername = (rule, value, callback) => {
@@ -184,19 +184,7 @@ export default {
         username: ruleForm.username,
         module: model.value
       };
-      GetSms(requestData).then(res => {
-          let data = res.data;
-          root.$message({
-            message: data.message,
-            type: "success"
-          });
-          // 启用登录或注册按钮
-          // loginButtonStatus.value = false;
-          // 调定时器，倒计时
-          // countDown(60);
-        }).catch(error => {
-          console.log(error);
-        });
+      GetSms(requestData);
     };
     /* *******************************声明生命周期******************************* */
 

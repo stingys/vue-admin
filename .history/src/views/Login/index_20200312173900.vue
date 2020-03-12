@@ -171,14 +171,14 @@ export default {
     // 获取验证码
     const getSms = () => {
       // 后台为了保险虽然做了处理 但是前端依旧必须要进行判空处理 这样network就不会发送一次多余的请求
-      if (!ruleForm.username) {
-        root.$message.error("邮箱不能为空！！");
-        return false;
-      }
-      if (validateEmail(ruleForm.username)) {
-        root.$message.error("邮箱格式有误，请重新输入！！");
-        return false;
-      }
+      // if (!ruleForm.username) {
+      //   root.$message.error("邮箱不能为空！！");
+      //   return false;
+      // }
+      // if (validateEmail(ruleForm.username)) {
+      //   root.$message.error("邮箱格式有误，请重新输入！！");
+      //   return false;
+      // }
       // 获取验证码
       let requestData = {
         username: ruleForm.username,

@@ -31,13 +31,13 @@
             <el-input id="code" v-model="ruleForm.code" maxlength="6"></el-input>
           </el-col>
           <el-col :span="9">
-            <el-button type="success" @click="getSms()" :disabled="codeButtonStatus.status">{{codeButtonStatus.text}}</el-button>
+            <el-button type="success">获取验证码</el-button>
           </el-col>
         </el-row>
       </el-form-item>
 
       <el-form-item>
-        <el-button type="danger" @click="submitForm('ruleForm')" class="block login-btn" :disabled="loginButtonStatus">{{model == 'login' ? '提交' : '注册'}}</el-button>
+        <el-button type="danger" @click="submitForm('ruleForm')" class="block login-btn">提交</el-button>
         <!-- <el-button @click="resetForm('ruleForm')">重置</el-button> -->
       </el-form-item>
     </el-form>
@@ -47,20 +47,18 @@
 </template>
 
 <script>
-import { GetSms } from "@/api/login";
 import {
   stripscript,
   validatePass,
   validateEmail,
   validateVCode
 } from "@/utils/validate";
-import axios from "@/utils/request";
-import { reactive, ref, onMounted } from "@vue/composition-api";
+import { reactive, ref } from "@vue/composition-api";
 export default {
   name: "Home",
-  setup(props, { refs, root }) {
+  setup(props, {refs}) {
     //这里面放置data数据、生命周期、自定义的函数
-    //验证用户名
+     //验证用户名
     let validateUsername = (rule, value, callback) => {
       if (value === "") {
         callback(new Error("请输入用户名"));
@@ -70,7 +68,7 @@ export default {
         callback();
       }
     };
-    // 验证密码
+     // 验证密码
     let validatePassword = (rule, value, callback) => {
       ruleForm.password = stripscript(value);
       value = ruleForm.password;
@@ -114,13 +112,6 @@ export default {
     /* *******************************声明变量******************************* */
     // 模块值
     const model = ref("login");
-    // 登陆按钮禁用状态
-    const loginButtonStatus = ref(true);
-    // 验证码按钮状态和文本
-    const codeButtonStatus = reactive({
-      status: false,
-      text: "获取验证码"
-    });
     // 菜单块
     const menuTab = reactive([
       { txt: "登录", current: true, type: "login" },
@@ -140,10 +131,10 @@ export default {
       passwords: [{ validator: validatePasswords, trigger: "blur" }],
       code: [{ validator: validateCode, trigger: "blur" }]
     });
-
+    
     /* *******************************声明函数******************************* */
     // 登陆/注册切换模块
-    const toggleMenu = data => {
+    const toggleMenu = (data =>{
       /* 点击切换菜单的时候把所有元素.current去掉 */
       menuTab.forEach(item => {
         item.current = false;
@@ -152,10 +143,10 @@ export default {
       data.current = true;
       /* 点击的时候改变当前的model值,动态显示/隐藏 重复密码表单块 */
       model.value = data.type;
-    };
+    })
     // 表单提交
-    const submitForm = formName => {
-      refs[formName].validate(valid => {
+    const submitForm = (formName =>{
+       refs[formName].validate(valid => {
         if (valid) {
           alert("submit!");
         } else {
@@ -163,61 +154,22 @@ export default {
           return false;
         }
       });
-    };
+    })
     // 表单重置
-    const resetForm = formName => {
+    const resetForm = (formName =>{
       refs[formName].resetFields();
-    };
-    // 获取验证码
-    const getSms = () => {
-      // 后台为了保险虽然做了处理 但是前端依旧必须要进行判空处理 这样network就不会发送一次多余的请求
-      if (!ruleForm.username) {
-        root.$message.error("邮箱不能为空！！");
-        return false;
-      }
-      if (validateEmail(ruleForm.username)) {
-        root.$message.error("邮箱格式有误，请重新输入！！");
-        return false;
-      }
-      // 获取验证码
-      let requestData = {
-        username: ruleForm.username,
-        module: model.value
-      };
-      GetSms(requestData).then(res => {
-          let data = res.data;
-          root.$message({
-            message: data.message,
-            type: "success"
-          });
-          // 启用登录或注册按钮
-          // loginButtonStatus.value = false;
-          // 调定时器，倒计时
-          // countDown(60);
-        }).catch(error => {
-          console.log(error);
-        });
-    };
-    /* *******************************声明生命周期******************************* */
-
-    onMounted(() => {});
+    }) 
 
     /* 定义的变量和函数都要return出去 */
     return {
-      //ref块
       model,
-      loginButtonStatus,
-      // reactive块
-      codeButtonStatus,
       menuTab,
       ruleForm,
       rules,
-      //函数块
       toggleMenu,
       submitForm,
-      resetForm,
-      getSms
-    };
+      resetForm
+    }
   }
 };
 </script>

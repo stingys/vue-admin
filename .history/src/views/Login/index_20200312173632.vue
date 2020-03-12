@@ -58,7 +58,7 @@ import axios from "@/utils/request";
 import { reactive, ref, onMounted } from "@vue/composition-api";
 export default {
   name: "Home",
-  setup(props, { refs, root }) {
+  setup(props, { refs, root}) {
     //这里面放置data数据、生命周期、自定义的函数
     //验证用户名
     let validateUsername = (rule, value, callback) => {
@@ -171,32 +171,24 @@ export default {
     // 获取验证码
     const getSms = () => {
       // 后台为了保险虽然做了处理 但是前端依旧必须要进行判空处理 这样network就不会发送一次多余的请求
-      if (!ruleForm.username) {
-        root.$message.error("邮箱不能为空！！");
-        return false;
-      }
-      if (validateEmail(ruleForm.username)) {
-        root.$message.error("邮箱格式有误，请重新输入！！");
-        return false;
-      }
+      // if (!ruleForm.username) {
+      //   root.$message.error("邮箱不能为空！！");
+      //   return false;
+      // }
+      // if (validateEmail(ruleForm.username)) {
+      //   root.$message.error("邮箱格式有误，请重新输入！！");
+      //   return false;
+      // }
       // 获取验证码
       let requestData = {
         username: ruleForm.username,
         module: model.value
       };
-      GetSms(requestData).then(res => {
-          let data = res.data;
-          root.$message({
-            message: data.message,
-            type: "success"
-          });
-          // 启用登录或注册按钮
-          // loginButtonStatus.value = false;
-          // 调定时器，倒计时
-          // countDown(60);
-        }).catch(error => {
-          console.log(error);
-        });
+      GetSms(requestData).then(res=>{
+
+      }).catch(error=>{
+        console.log(error,'11')
+      });
     };
     /* *******************************声明生命周期******************************* */
 

@@ -31,13 +31,13 @@
             <el-input id="code" v-model="ruleForm.code" maxlength="6"></el-input>
           </el-col>
           <el-col :span="9">
-            <el-button type="success" @click="getSms()" :disabled="codeButtonStatus.status">{{codeButtonStatus.text}}</el-button>
+            <el-button type="success" @click="getSms">获取验证码</el-button>
           </el-col>
         </el-row>
       </el-form-item>
 
       <el-form-item>
-        <el-button type="danger" @click="submitForm('ruleForm')" class="block login-btn" :disabled="loginButtonStatus">{{model == 'login' ? '提交' : '注册'}}</el-button>
+        <el-button type="danger" @click="submitForm('ruleForm')" class="block login-btn">提交</el-button>
         <!-- <el-button @click="resetForm('ruleForm')">重置</el-button> -->
       </el-form-item>
     </el-form>
@@ -47,18 +47,13 @@
 </template>
 
 <script>
-import { GetSms } from "@/api/login";
-import {
-  stripscript,
-  validatePass,
-  validateEmail,
-  validateVCode
-} from "@/utils/validate";
+import { GetSms} from "@/api/login";
+import { stripscript, validatePass, validateEmail, validateVCode} from "@/utils/validate";
 import axios from "@/utils/request";
 import { reactive, ref, onMounted } from "@vue/composition-api";
 export default {
   name: "Home",
-  setup(props, { refs, root }) {
+  setup(props, { refs }) {
     //这里面放置data数据、生命周期、自定义的函数
     //验证用户名
     let validateUsername = (rule, value, callback) => {
@@ -114,13 +109,6 @@ export default {
     /* *******************************声明变量******************************* */
     // 模块值
     const model = ref("login");
-    // 登陆按钮禁用状态
-    const loginButtonStatus = ref(true);
-    // 验证码按钮状态和文本
-    const codeButtonStatus = reactive({
-      status: false,
-      text: "获取验证码"
-    });
     // 菜单块
     const menuTab = reactive([
       { txt: "登录", current: true, type: "login" },
@@ -169,54 +157,25 @@ export default {
       refs[formName].resetFields();
     };
     // 获取验证码
-    const getSms = () => {
-      // 后台为了保险虽然做了处理 但是前端依旧必须要进行判空处理 这样network就不会发送一次多余的请求
-      if (!ruleForm.username) {
-        root.$message.error("邮箱不能为空！！");
-        return false;
-      }
-      if (validateEmail(ruleForm.username)) {
-        root.$message.error("邮箱格式有误，请重新输入！！");
-        return false;
-      }
-      // 获取验证码
-      let requestData = {
-        username: ruleForm.username,
-        module: model.value
-      };
-      GetSms(requestData).then(res => {
-          let data = res.data;
-          root.$message({
-            message: data.message,
-            type: "success"
-          });
-          // 启用登录或注册按钮
-          // loginButtonStatus.value = false;
-          // 调定时器，倒计时
-          // countDown(60);
-        }).catch(error => {
-          console.log(error);
-        });
-    };
+    const getSms = (()=>{
+      getSms({username: ruleForm.username,})
+    })
+
     /* *******************************声明生命周期******************************* */
 
-    onMounted(() => {});
+    onMounted(()=>{
+      GetSms()
+    })
 
     /* 定义的变量和函数都要return出去 */
     return {
-      //ref块
       model,
-      loginButtonStatus,
-      // reactive块
-      codeButtonStatus,
       menuTab,
       ruleForm,
       rules,
-      //函数块
       toggleMenu,
       submitForm,
-      resetForm,
-      getSms
+      resetForm
     };
   }
 };
