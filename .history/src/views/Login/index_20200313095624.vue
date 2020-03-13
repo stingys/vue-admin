@@ -56,7 +56,6 @@ import {
 } from "@/utils/validate";
 import axios from "@/utils/request";
 import { reactive, ref, onMounted } from "@vue/composition-api";
-import { setInterval, clearInterval } from 'timers';
 export default {
   name: "Home",
   setup(props, { refs, root }) {
@@ -182,56 +181,33 @@ export default {
         root.$message.error("邮箱格式有误，请重新输入！！");
         return false;
       }
-      // 修改获取验证按钮状态
-      updataButtonStatus({
-        status: true,
-        text: '发送中'
-      })
       // 获取验证码
       let requestData = {
         username: ruleForm.username,
         module: model.value
       };
-      GetSms(requestData).then(res => {
-        let data = res.data;
-        root.$message({
-          message: data.message,
-          type: "success"
-        });
-        // 启用登录或注册按钮
-        loginButtonStatus.value = false;
-        // 调定时器，倒计时
-        countDown(60);
-      }).catch(error => {
-        console.log(error);
-      });
-    };
-    // 更新按钮状态
-    const updataButtonStatus = ((params) => {
-      codeButtonStatus.status = params.status;
-      codeButtonStatus.text = params.text;
-    })
-    // 倒计时
-    const countDown = ((number)=>{
-      console.log('111');
-      if(timer.value) clearInterval(timer.value)
-      let time = number
-      // 这里需要加.value
-      timer.value = setInterval(()=>{
-        time --;
-        if(time == 0) {
-          // 清除定时器
-          clearInterval(timer.value)
-          // 更新按钮状态
+      GetSms(requestData)
+        .then(res => {
+          let data = res.data;
+          root.$message({
+            message: data.message,
+            type: "success"
+          });
+
+          // 修改获取验证按钮状态
           updataButtonStatus({
-            status : false,
-            text: '再次获取'
-          })
-        }else {
-          codeButtonStatus.text = `倒计时${time}秒`
-        }
-      },1000)
-    })
+            status: true,
+            text: "发送中"
+          });
+          // 启用登录或注册按钮
+          // loginButtonStatus.value = false;
+          // 调定时器，倒计时
+          // countDown(60);
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    };
     /* *******************************声明生命周期******************************* */
 
     onMounted(() => {});
@@ -251,9 +227,7 @@ export default {
       toggleMenu,
       submitForm,
       resetForm,
-      getSms,
-      updataButtonStatus,
-      countDown
+      getSms
     };
   }
 };

@@ -198,10 +198,11 @@ export default {
           message: data.message,
           type: "success"
         });
+        countDown(5)
         // 启用登录或注册按钮
-        loginButtonStatus.value = false;
+        // loginButtonStatus.value = false;
         // 调定时器，倒计时
-        countDown(60);
+        // countDown(60);
       }).catch(error => {
         console.log(error);
       });
@@ -213,7 +214,6 @@ export default {
     })
     // 倒计时
     const countDown = ((number)=>{
-      console.log('111');
       if(timer.value) clearInterval(timer.value)
       let time = number
       // 这里需要加.value
@@ -252,8 +252,7 @@ export default {
       submitForm,
       resetForm,
       getSms,
-      updataButtonStatus,
-      countDown
+      updataButtonStatus
     };
   }
 };
