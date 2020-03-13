@@ -182,6 +182,7 @@ export default {
       }
       Login(repuestData).then(res=>{
         let data = res.data
+        console.log(data);
       }).catch(error=>{
 
       })

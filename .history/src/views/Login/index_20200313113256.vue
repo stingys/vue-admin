@@ -162,7 +162,7 @@ export default {
     const submitForm = formName => {
       refs[formName].validate(valid => {
         if (valid) {
-          model.value === "login" ? login() : register();
+          model.vaule === "login" ? '' : register();
         } else {
           console.log("error submit!!");
           return false;
@@ -177,11 +177,12 @@ export default {
     const login = () => {
       let repuestData = {
         username: ruleForm.username,
-        password: ruleForm.password,
+        password: sha1(ruleForm.password),
         code: ruleForm.code
       }
       Login(repuestData).then(res=>{
         let data = res.data
+        console.log(data);
       }).catch(error=>{
 
       })

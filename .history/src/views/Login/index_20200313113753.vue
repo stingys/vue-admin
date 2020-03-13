@@ -160,9 +160,10 @@ export default {
     };
     // 表单提交
     const submitForm = formName => {
+      console.log(formName);
       refs[formName].validate(valid => {
         if (valid) {
-          model.value === "login" ? login() : register();
+          model.vaule === "login" ? login() : register();
         } else {
           console.log("error submit!!");
           return false;
@@ -182,6 +183,7 @@ export default {
       }
       Login(repuestData).then(res=>{
         let data = res.data
+        console.log(data);
       }).catch(error=>{
 
       })

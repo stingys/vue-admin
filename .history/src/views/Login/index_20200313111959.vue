@@ -37,7 +37,7 @@
       </el-form-item>
 
       <el-form-item>
-        <el-button type="danger" @click="submitForm('loginForm')" class="block login-btn" :disabled="loginButtonStatus">{{model == 'login' ? '提交' : '注册'}}</el-button>
+        <el-button type="danger" @click="submitForm('ruleForm')" class="block login-btn" :disabled="loginButtonStatus">{{model == 'login' ? '提交' : '注册'}}</el-button>
         <!-- <el-button @click="resetForm('ruleForm')">重置</el-button> -->
       </el-form-item>
     </el-form>
@@ -162,7 +162,8 @@ export default {
     const submitForm = formName => {
       refs[formName].validate(valid => {
         if (valid) {
-          model.value === "login" ? login() : register();
+          alert("submit!");
+          model.vaule === "login" ? login() : register();
         } else {
           console.log("error submit!!");
           return false;
@@ -174,18 +175,7 @@ export default {
       refs["loginForm"].resetFields();
     };
     // 登陆
-    const login = () => {
-      let repuestData = {
-        username: ruleForm.username,
-        password: ruleForm.password,
-        code: ruleForm.code
-      }
-      Login(repuestData).then(res=>{
-        let data = res.data
-      }).catch(error=>{
-
-      })
-    };
+    const login = () => {};
     // 注册
     const register = () => {
       let requestData = {
@@ -202,9 +192,9 @@ export default {
             message: data.message,
             type: "success"
           });
-           // 注册成功跳转登陆
-          toggleMenu(menuTab[0])
-          clearCountDown()
+          //  // 模拟注册成功
+          // toggleMenu(menuTab[0])
+          // clearCountDown()
         })
         .catch(error => {
           // 失败时执行的代码

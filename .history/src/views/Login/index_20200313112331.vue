@@ -162,7 +162,7 @@ export default {
     const submitForm = formName => {
       refs[formName].validate(valid => {
         if (valid) {
-          model.value === "login" ? login() : register();
+          model.vaule === "login" ? '' : register();
         } else {
           console.log("error submit!!");
           return false;
@@ -174,18 +174,7 @@ export default {
       refs["loginForm"].resetFields();
     };
     // 登陆
-    const login = () => {
-      let repuestData = {
-        username: ruleForm.username,
-        password: ruleForm.password,
-        code: ruleForm.code
-      }
-      Login(repuestData).then(res=>{
-        let data = res.data
-      }).catch(error=>{
-
-      })
-    };
+    const login = () => {};
     // 注册
     const register = () => {
       let requestData = {
@@ -197,12 +186,12 @@ export default {
       // 注册接口
       Register(requestData)
         .then(res => {
-          let data = res.data;
-          root.$message({
-            message: data.message,
-            type: "success"
-          });
-           // 注册成功跳转登陆
+          // let data = res.data;
+          // root.$message({
+          //   message: data.message,
+          //   type: "success"
+          // });
+           // 模拟注册成功
           toggleMenu(menuTab[0])
           clearCountDown()
         })

@@ -162,6 +162,8 @@ export default {
     const submitForm = formName => {
       refs[formName].validate(valid => {
         if (valid) {
+          console.log(model.value);
+          console.log(typeof(model.value));
           model.value === "login" ? login() : register();
         } else {
           console.log("error submit!!");
@@ -182,6 +184,7 @@ export default {
       }
       Login(repuestData).then(res=>{
         let data = res.data
+        console.log(data);
       }).catch(error=>{
 
       })
