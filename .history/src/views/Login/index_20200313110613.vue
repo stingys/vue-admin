@@ -171,7 +171,7 @@ export default {
     };
     // 表单重置
     const resetFormData = formName => {
-      refs['loginForm'].resetFields();
+      refs[loginForm].resetFields();
     };
     // 获取验证码
     const getSms = () => {

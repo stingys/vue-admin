@@ -7,7 +7,7 @@
         </li>
       </ul>
     <!-- 表单 start -->
-    <el-form :model="ruleForm" status-icon :rules="rules" ref="loginForm" size="medium" class="login-form">
+    <el-form :model="ruleForm" status-icon :rules="rules" ref="ruleForm" size="medium" class="login-form">
 
       <el-form-item prop="username" class="item-from">
         <label for="email">邮箱</label>
@@ -155,8 +155,6 @@ export default {
       data.current = true;
       /* 点击的时候改变当前的model值,动态显示/隐藏 重复密码表单块 */
       model.value = data.type;
-      resetFormData()
-      clearCountDown()
     };
     // 表单提交
     const submitForm = formName => {
@@ -170,8 +168,8 @@ export default {
       });
     };
     // 表单重置
-    const resetFormData = formName => {
-      refs['loginForm'].resetFields();
+    const resetForm = formName => {
+      refs[formName].resetFields();
     };
     // 获取验证码
     const getSms = () => {
@@ -233,16 +231,6 @@ export default {
         }
       },1000)
     })
-    // 清除倒计时
-    const clearCountDown = (() => {
-      // 还原验证码按钮默认状态
-      updataButtonStatus({
-        status: false,
-        text: '获取验证码'
-      })
-      clearInterval(timer.value)
-    })
-      // 清除倒计时
     /* *******************************声明生命周期******************************* */
 
     onMounted(() => {});
@@ -261,11 +249,10 @@ export default {
       //函数块
       toggleMenu,
       submitForm,
-      resetFormData,
+      resetForm,
       getSms,
       updataButtonStatus,
-      countDown,
-      clearCountDown
+      countDown
     };
   }
 };

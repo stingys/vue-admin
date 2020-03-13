@@ -7,7 +7,7 @@
         </li>
       </ul>
     <!-- 表单 start -->
-    <el-form :model="ruleForm" status-icon :rules="rules" ref="loginForm" size="medium" class="login-form">
+    <el-form :model="ruleForm" status-icon :rules="rules" ref="ruleForm" size="medium" class="login-form">
 
       <el-form-item prop="username" class="item-from">
         <label for="email">邮箱</label>
@@ -171,7 +171,7 @@ export default {
     };
     // 表单重置
     const resetFormData = formName => {
-      refs['loginForm'].resetFields();
+      refs[formName].resetFields();
     };
     // 获取验证码
     const getSms = () => {
